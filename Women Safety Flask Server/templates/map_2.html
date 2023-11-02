@@ -88,7 +88,7 @@
         <a href="/" style="text-decoration: none; color: black; font-size: 1.2rem; border: 2px solid black ; padding: .5rem 1rem; border-radius: 10px;"> logout </a>
       </div>
       <div>
-        <img class="munu-icon" src="../Asset/munu-icon.png" />
+        <img class="munu-icon" src="../static/images/munu-icon.png" />
       </div>
     </div>
 
@@ -109,7 +109,7 @@
        </button>
       <div class="form-card">
 
-        <form  method="POST" action="/map_2" class="form">
+        <form  method="POST" action="/map_2/police" class="form">
           
           <div>
             <h2 class="form-text">Details :</h2>
@@ -138,7 +138,53 @@
 
    </main>
 
+   <script>
+   document.addEventListener('DOMContentLoaded', function () {
+    getLocation().then(res => {
+        let longitude = res.Longitude;
+        let latitude = res.Latitude;
 
+        // Make a POST request to the "/map_2" route with longitude and latitude data
+        fetch('/map_2', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ longitude, latitude }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Server response:', data);
+        })
+        .catch(error => console.log('Error:', error));
+    });
+});
+async function getLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    console.log("Latitude:", position.coords.latitude, "Longitude:", position.coords.longitude);
+                    const response = { Latitude: position.coords.latitude, Longitude: position.coords.longitude };
+                    resolve(response);
+                },
+                error => {
+                    console.error("Geolocation error:", error);
+                    reject(error);
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+            reject("Geolocation not supported");
+        }
+    });
+  }
+    </script>
   </body>
 </html>
 

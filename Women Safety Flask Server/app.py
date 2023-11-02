@@ -117,24 +117,35 @@ def map_1():
     
     return render_template('map_1.html')
 
+
 @app.route('/map_2' , methods=['GET', 'POST'] )
 def map_2():
     message = request.args.get('message')
     police_station_name = "Lalbagh Police Station"
     destination = "XH3P+H62, Lalbagh Gate, Lal Bagh Rd, Jaya Nagar"
     if request.method == 'POST':
-        print("Contact to police")
-        
+        data = request.get_json()
+        longitude = data.get('longitude')
+        latitude = data.get('latitude')
 
-       
+        print(f'longitude: {longitude}')
+        print(f'latitude: {latitude}')
+    # Pass the data to the HTML template
+    return render_template('map_2.html', police_station_name=police_station_name,destination=destination , map=map)
 
-        return redirect(url_for('home'))
+@app.route('/map_2/police' , methods=['GET', 'POST'] )
+def map_2_police():
+    message = request.args.get('message')
+    if request.method == 'POST':
+            print("Contact to police")
+            return redirect(url_for('home'))
+
 
     # Pass the data to the HTML template
     return render_template('map_2.html', police_station_name=police_station_name,destination=destination , map=map)
    
     
-    return render_template('map_2.html')
+   
 
 
 
@@ -156,29 +167,6 @@ def help():
     return render_template('help.html', address=address)
 
 
-# @app.route('/help' , methods=['GET', 'POST'] )
-# def help():
-#     message = request.args.get('message')
-#     address = 'Stuttgart OST, lorem street'
-#     if request.method == 'POST':
-#         print("SOS Request received!")
-#         # if request.method == 'POST':
-#         return ("successfull")
-            
-    
-#         # source = request.form.get('source')
-#         # destination = request.form.get('destination')
-#         # # optimize_safety = 'Optimize Safety' in request.form
-#         # # avoid_dark_areas = 'Avoid Dark Areas' in request.form
-
-#         #  # You can process the form data here or perform any other desired actions
-
-#         # print(f'Source: {source}, Destination: {destination}')
-
-#         # return redirect(url_for('home'))
-      
-    
-#     return render_template('help.html',  address=address)
 
 if __name__ == '__main__':
     app.run(debug=True)
