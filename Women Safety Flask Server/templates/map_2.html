@@ -96,8 +96,9 @@
 
     <div class="container">
       <div class="container-title">Map</div>
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15113.412136333112!2d73.63930769999999!3d18.737761499999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2ae1ac61fa98b%3A0x5fe5e156686d6ca!2sVadgaon%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1698303402037!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-container" style="width: 500px; height: 400px; overflow: hidden; margin: 0 auto ; " >
+        {{map}}
+        <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15113.412136333112!2d73.63930769999999!3d18.737761499999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2ae1ac61fa98b%3A0x5fe5e156686d6ca!2sVadgaon%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1698303402037!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
       </div>
     </div>
 
@@ -107,38 +108,29 @@
         <h3>Stuttgart OST, lorem street</h3>
        </button>
       <div class="form-card">
+
         <form  method="POST" action="/map_2" class="form">
-        
+          
           <div>
             <h2 class="form-text">Details :</h2>
   
             <p class="form-para">Lorem Ipsum is simply </p>
           </div>
-  
           <div class="form-field">
-            <label for="name" class="form-label">Name</label>
-            <input
-              type="text"
-              class="form-control"
-              name="name"
-              id="name"
-              placeholder="Enter your name"
-            />
+          <h1>Police Station Name: {{ police_station_name }}</h1>
           </div>
+
+          
+        
+           
   
           <div class="form-field">
-            <label for="destination" class="form-label">Destination</label>
-            <input
-              type="text"
-              class="form-control"
-              name="destination"
-              id="destination"
-              placeholder="Enter your Destination "
-            />
+            <p>Destination: {{ destination }}</p>
+           
           </div>
          
-          <button type="submit" style=" width: 100%; padding: 1rem ; border-radius: 6px;
-          background: #61439A; border: none; color : white; margin-top: 1rem;" > Submit </button>
+          <button type="submit" style="cursor: pointer; width: 100%; padding: 1rem ; border-radius: 6px;
+          background: #61439A; border: none; color : white; margin-top: 1rem;" > Contact Police </button>
         
         </form>
       </div>

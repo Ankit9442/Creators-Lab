@@ -80,17 +80,21 @@
            <h2>Map</h2> 
            <button class="addres-btn">
             <p>Your Current Address</p>
-            <h3>Stuttgart OST, lorem street</h3>
+            <h3>Address: {{ address }}</h3>
            </button>
           
         </div>
-
+       
        <div class="sos" id="open-modal">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="35"  fill="none">
                 <path d="M7.79183 29.1667V26.25H10.1252L13.0054 16.6615C13.1998 16.0295 13.5586 15.5249 14.0816 15.1477C14.6047 14.7705 15.1817 14.5824 15.8127 14.5833H20.1877C20.8196 14.5833 21.3971 14.7719 21.9202 15.1492C22.4432 15.5264 22.8015 16.0305 22.995 16.6615L25.8752 26.25H28.2085V29.1667H7.79183ZM16.5418 11.6667V4.375H19.4585V11.6667H16.5418ZM25.2189 15.276L23.1408 13.1979L28.3179 8.05729L30.3595 10.099L25.2189 15.276ZM26.7502 21.875V18.9583H34.0418V21.875H26.7502ZM10.7814 15.276L5.64079 10.099L7.68246 8.05729L12.8595 13.1979L10.7814 15.276ZM1.9585 21.875V18.9583H9.25016V21.875H1.9585Z" fill="white"/>
               </svg>
-            SOS
+              <form id="helpForm" action="/help" method="POST">
+                <!-- You can add other form fields here if needed -->
+                <button type="submit">SOS</button>
+            </form>
+
         </div>
 
        </div>
@@ -106,11 +110,10 @@
             <h2 style="font-size: 1.8rem;">Help is on the way!</h2>
            <p style="font-size: 1.2rem;">Notification sent to these contacts.</p>
          </div>
-         <div style="margin-top: 2rem; background-color: #E6BFFF
-         ; padding: 1rem;   ">
-            <p style=" font-size: 1.1rem;">Emergency contact </p>
-           <p  style=" font-size: 1.2rem;" >Joseph : joseph@gmail.com</p>
-         </div>
+         <div id="emergency-contact-section" style="margin-top: 2rem; background-color: #E6BFFF; padding: 1rem;">
+          <p style="font-size: 1.1rem;">Emergency contact</p>
+          <p id="emergency-contact-number" style="font-size: 1.2rem;"></p>
+      </div>
        
        </dialog>
     
@@ -119,6 +122,27 @@
     </div>
 
  <script>
+
+   // Fetch JSON data from the Flask route
+   document.getElementById('helpForm').addEventListener('submit', function (event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+
+            // Make a POST request to the "/help" route
+            fetch('/help', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Update the modal with the emergency contact number
+                        const emergencyContactSection = document.getElementById('emergency-contact-section');
+                        const emergencyContactNumber = document.getElementById('emergency-contact-number');
+
+                        emergencyContactNumber.textContent = `Contact Number: ${data.emergency_contact_number}`;
+                        emergencyContactSection.style.display = 'block'; // Show the section if needed
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
 
 const Modal = document.getElementById("modal");
    const openModal = document.getElementById("open-modal");
