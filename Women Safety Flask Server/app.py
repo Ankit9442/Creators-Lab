@@ -99,6 +99,30 @@ def dashboardv():
     return render_template('dashboard.html')
 
 
+@app.route('/dashboard/profile-picture-update', methods=['POST'])
+def update_profile_picture():
+    try:
+        # Check if the 'profilePicture' file is in the request
+        if 'profilePicture' not in request.files:
+            return jsonify({'error': 'No file provided'}), 400
+
+        file = request.files['profilePicture']
+        print(file)
+        # Check if the file is empty
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+
+        # Save the file to the upload folder
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filename)
+
+        # Return the path to the uploaded file
+        return jsonify({'profilePicturePath': filename})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/map_1' , methods=['GET', 'POST'] )
 def map_1():
     message = request.args.get('message')

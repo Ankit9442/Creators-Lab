@@ -121,16 +121,23 @@
           "
         >
           <h2>Dashboard</h2>
-          <img src="../static/images/user-3.png" />
+          <!-- <img src="../static/images/user-3.png" /> -->
+          <img id="uploaded-picture" src="" alt="Profile Picture">
         </div>
+        <form id="profile-picture-form" enctype="multipart/form-data" >
+          <button id="uploadbtn"   class="upload-btn" type="submit">Upload photo</button>
+          <input   type="file" id="profile-picture" name="profilePicture" accept="image/*">
+          
+      </form>
         
-        <buuton class="upload-btn">Upload photo </buuton>
+        
       </div>
 
       <div class="form-container">
         <div style="width: 880px;  display: flex; justify-content: space-between">
           <h2 style="font-size: 1.5rem">Edit Profile</h2>
-       <button id="edit-btn" style="border: none; cursor: pointer;">          <img  src="../static/images/edit-btn.png" /></button>
+       <button id="edit-btn" style="border: none; cursor: pointer;">  
+                <img  src="../static/images/edit-btn.png" /></button>
         </div>
         <form style="display: none;" id="edit-form" class="form" method="POST" action="/dashboard">
           <div
@@ -215,6 +222,39 @@
       </div>
     </div>
     <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+        const profilePictureForm = document.getElementById('profile-picture-form');
+        const uploadedPicture = document.getElementById('uploaded-picture');
+        const uploadbtn = document.getElementById('uploadbtn');
+        const fileInput = document.getElementById('profile-picture');
+
+
+        // uploadbtn.addEventListener('click', function () {
+        //     fileInput.click();
+        // });
+        profilePictureForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(profilePictureForm);
+
+            fetch('/dashboard/profile-picture-update', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (!response.ok) {
+                   console.log(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update the image source with the path returned from the server
+                uploadedPicture.src = data.profilePicturePath;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });  
 
       const edit_btn = document.getElementById("edit-btn");
 
